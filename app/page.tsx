@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import ReadingCard from "@/components/ReadingCard";
 import FloatingAddButton from "@/components/FloatingAddButton";
 import { supabase } from "@/lib/supabase";
+import { useRouter } from "next/navigation";
 
 type Series = {
   id: string;
@@ -15,8 +16,10 @@ type Series = {
 };
 
 export default function Home() {
+  const router = useRouter();
   const [readingSeries, setReadingSeries] = useState<Series[]>([]);
   const [loading, setLoading] = useState(true);
+  
 
   useEffect(() => {
     async function loadSeries() {
@@ -25,7 +28,7 @@ export default function Home() {
       } = await supabase.auth.getUser();
 
       if (!user) {
-        setLoading(false);
+        router.push("/login");
         return;
       }
 
