@@ -1,3 +1,7 @@
+"use client";
+
+import { useState } from "react";
+
 type ReadingCardProps = {
   id: string;
   title: string;
@@ -5,6 +9,10 @@ type ReadingCardProps = {
   schedule: string;
   onIncrement: (id: string) => void;
   onDecrement: (id: string) => void;
+  onUpdateChapter: (
+    id: string,
+    chapter: number
+  ) => void;
 };
 
 export default function ReadingCard({
@@ -14,7 +22,15 @@ export default function ReadingCard({
   schedule,
   onIncrement,
   onDecrement,
+  onUpdateChapter,
 }: ReadingCardProps) {
+
+  const [isEditing, setIsEditing] =
+    useState(false);
+
+  const [editedChapter, setEditedChapter] =
+    useState(chapter);
+
   return (
     <div className="rounded-xl bg-white p-4 shadow-lg border border-zinc-200">
       <div className="flex gap-4">
@@ -41,9 +57,41 @@ export default function ReadingCard({
               -
             </button>
 
-            <span className="font-medium">
-              {chapter}
-            </span>
+            {isEditing ? (
+              <>
+                <input
+                  type="number"
+                  value={editedChapter}
+                  onChange={(e) =>
+                    setEditedChapter(
+                      Number(e.target.value)
+                    )
+                  }
+                  className="w-20 rounded border px-2 py-1"
+                />
+
+                <button
+                  onClick={() => {
+                    onUpdateChapter(
+                      id,
+                      editedChapter
+                    );
+
+                    setIsEditing(false);
+                  }}
+                  className="rounded bg-green-600 px-3 py-1 text-white"
+                >
+                  Save
+                </button>
+              </>
+            ) : (
+              <button
+                onClick={() => setIsEditing(true)}
+                className="font-medium underline"
+              >
+                {chapter}
+              </button>
+            )}
 
             <button onClick={() => onIncrement(id)} className="rounded bg-blue-600 px-3 py-1 text-white">
   +

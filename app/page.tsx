@@ -67,6 +67,7 @@ export default function Home() {
                 schedule={series.schedule ?? ""}
                 onIncrement={incrementChapter}
                 onDecrement={decrementChapter}
+                onUpdateChapter={updateChapter}
               />
             ))}
           </div>
@@ -76,6 +77,31 @@ export default function Home() {
       <FloatingAddButton />
     </main>
   );
+
+  async function updateChapter(
+  seriesId: string,
+  chapter: number
+) {
+  const { error } = await supabase
+    .from("user_series")
+    .update({
+      chapter,
+    })
+    .eq("id", seriesId);
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  setReadingSeries((current) =>
+    current.map((s) =>
+      s.id === seriesId
+        ? { ...s, chapter }
+        : s
+    )
+  );
+}
 
   async function incrementChapter(
   seriesId: string
