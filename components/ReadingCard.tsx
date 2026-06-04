@@ -7,11 +7,16 @@ type ReadingCardProps = {
   title: string;
   chapter: number;
   schedule: string;
+  status: string;
   onIncrement: (id: string) => void;
   onDecrement: (id: string) => void;
   onUpdateChapter: (
     id: string,
     chapter: number
+  ) => void;
+  onUpdateStatus: (
+    id: string,
+    status: string
   ) => void;
 };
 
@@ -20,10 +25,12 @@ export default function ReadingCard({
   title,
   chapter,
   schedule,
+  status,
   onIncrement,
   onDecrement,
   onUpdateChapter,
-}: ReadingCardProps) {
+  onUpdateStatus,
+}: ReadingCardProps){
 
   const [isEditing, setIsEditing] =
     useState(false);
@@ -48,6 +55,34 @@ export default function ReadingCard({
           <p className="text-sm text-zinc-500">
             {schedule}
           </p>
+
+          <select
+            value={status}
+            onChange={(e) =>
+              onUpdateStatus(id, e.target.value)
+            }
+            className="mt-2 rounded border px-2 py-1 text-sm"
+          >
+            <option value="reading">
+              Reading
+            </option>
+
+            <option value="completed">
+              Completed
+            </option>
+
+            <option value="on_hold">
+              On Hold
+            </option>
+
+            <option value="dropped">
+              Dropped
+            </option>
+
+            <option value="plan_to_read">
+              Plan to Read
+            </option>
+          </select>
 
           <div className="mt-3 flex items-center gap-3">
             <button

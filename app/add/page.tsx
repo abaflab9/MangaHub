@@ -10,6 +10,7 @@ export default function AddSeriesPage() {
   const [title, setTitle] = useState("");
   const [chapter, setChapter] = useState(1);
   const [schedule, setSchedule] = useState("");
+  const [status, setStatus] = useState("reading");
 
   async function handleSave() {
     const {
@@ -28,6 +29,7 @@ export default function AddSeriesPage() {
         title,
         chapter,
         schedule,
+        status,
       });
 
     if (error) {
@@ -75,6 +77,18 @@ export default function AddSeriesPage() {
             }
             className="w-full rounded border p-3"
           />
+
+          <select
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
+            className="w-full rounded border p-3"
+          >
+            <option value="reading">Reading</option>
+            <option value="completed">Completed</option>
+            <option value="on_hold">On Hold</option>
+            <option value="dropped">Dropped</option>
+            <option value="plan_to_read">Plan to Read</option>
+          </select>
 
           <button
             onClick={handleSave}

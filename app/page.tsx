@@ -11,6 +11,7 @@ type Series = {
   title: string;
   chapter: number;
   schedule: string | null;
+  status: string;
 };
 
 export default function Home() {
@@ -65,9 +66,11 @@ export default function Home() {
                 title={series.title}
                 chapter={series.chapter}
                 schedule={series.schedule ?? ""}
+                status={series.status}
                 onIncrement={incrementChapter}
                 onDecrement={decrementChapter}
                 onUpdateChapter={updateChapter}
+                onUpdateStatus={updateStatus}
               />
             ))}
           </div>
@@ -103,7 +106,31 @@ export default function Home() {
   );
 }
 
-  async function incrementChapter(
+async function updateStatus(
+  seriesId: string,
+  status: string
+) {
+  const { error } = await supabase
+    .from("user_series")
+    .update({
+      status,
+    })
+    .eq("id", seriesId);
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  setReadingSeries((current) =>
+    current.filter((s) =>
+      status === "reading"
+        ? true
+        : s.id !== seriesId
+    )
+  );
+}
+async function incrementChapter(
   seriesId: string
 ) {
   const series = readingSeries.find(
