@@ -13,6 +13,7 @@ type Series = {
   chapter: number;
   schedule: string | null;
   status: string;
+  cover_url: string | null;
 };
 
 export default function Home() {
@@ -70,6 +71,7 @@ export default function Home() {
                 chapter={series.chapter}
                 schedule={series.schedule ?? ""}
                 status={series.status}
+                cover_url={series.cover_url}
                 onIncrement={incrementChapter}
                 onDecrement={decrementChapter}
                 onUpdateChapter={updateChapter}

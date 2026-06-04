@@ -8,6 +8,7 @@ type ReadingCardProps = {
   chapter: number;
   schedule: string;
   status: string;
+  cover_url: string | null;
   onIncrement: (id: string) => void;
   onDecrement: (id: string) => void;
   onUpdateChapter: (
@@ -26,6 +27,7 @@ export default function ReadingCard({
   chapter,
   schedule,
   status,
+  cover_url,
   onIncrement,
   onDecrement,
   onUpdateChapter,
@@ -41,7 +43,16 @@ export default function ReadingCard({
   return (
     <div className="rounded-xl bg-white p-4 shadow-lg border border-zinc-200">
       <div className="flex gap-4">
-        <div className="h-20 w-14 rounded bg-zinc-300" />
+
+        {cover_url ? (
+          <img
+            src={cover_url}
+            alt={title}
+            className="h-20 w-14 rounded object-cover"
+          />
+        ) : (
+          <div className="h-20 w-14 rounded bg-zinc-300" />
+        )}
 
         <div className="flex-1">
           <h2 className="text-lg font-bold text-zinc-900">
@@ -129,8 +140,8 @@ export default function ReadingCard({
             )}
 
             <button onClick={() => onIncrement(id)} className="rounded bg-blue-600 px-3 py-1 text-white">
-  +
-</button>
+              +
+            </button>
           </div>
         </div>
       </div>
