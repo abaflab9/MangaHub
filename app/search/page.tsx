@@ -11,6 +11,20 @@ type SearchResult = {
   cover_url: string | null;
 };
 
+type MangaUpdatesResult = {
+  record?: {
+    series_id?: number;
+    title?: string;
+    type?: string;
+    year?: string | number;
+    image?: {
+      url?: {
+        thumb?: string;
+      };
+    };
+  };
+};
+
 export default function SearchPage() {
 
   
@@ -24,7 +38,9 @@ const [loading, setLoading] =
   
 
   async function handleSearch() {
-    
+    setLoading(true);
+
+try {
 const response = await fetch(
   "/api/mangaupdates/search",
   {
@@ -39,16 +55,35 @@ const response = await fetch(
 );
 
 const data = await response.json();
-console.log(data.results[0]);
 setResults(
-  data.results.map((item: any) => ({
-    series_id: item.record.series_id,
-    title: item.record.title,
-    type: item.record.type,
-    year: item.record.year,
-    cover_url: item.record.image?.url?.thumb ?? null,
-  }))
+  (data.results ?? [])
+    .map((item: MangaUpdatesResult) => {
+      const record = item.record;
+
+      if (
+        !record?.series_id ||
+        !record.title
+      ) {
+        return null;
+      }
+
+      return {
+        series_id: record.series_id,
+        title: record.title,
+        type: record.type ?? "Unknown",
+        year: String(record.year ?? ""),
+        cover_url:
+          record.image?.url?.thumb ?? null,
+      };
+    })
+    .filter(
+      (item: SearchResult | null): item is SearchResult =>
+      item !== null
+    )
 );
+} finally {
+  setLoading(false);
+}
 }
 
 async function handleAdd(result: SearchResult) {
@@ -117,6 +152,12 @@ if (existingSeries) {
 
 
         <div className="mt-6 space-y-3">
+            {loading ? (
+              <p className="text-zinc-600">
+                Searching...
+              </p>
+            ) : null}
+
             {results.map((result) => (
               
               <div

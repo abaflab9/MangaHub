@@ -50,7 +50,7 @@ export default function Home() {
     }
 
     loadSeries();
-  }, []);
+  }, [router]);
 
   return (
     <main className="min-h-screen bg-zinc-200 p-4">
@@ -206,4 +206,3 @@ async function decrementChapter(
   );
 }
 }
-
