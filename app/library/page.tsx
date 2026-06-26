@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import SeriesCover from "@/components/SeriesCover";
 
 type Series = {
   id: string;
@@ -205,17 +206,11 @@ export default function LibraryPage() {
                 key={item.id}
                 className="overflow-hidden rounded-lg border border-zinc-200 bg-white shadow-sm"
               >
-                {item.cover_url ? (
-                  <img
-                    src={item.cover_url}
-                    alt={item.title}
-                    className="aspect-[3/4] w-full bg-zinc-300 object-cover"
-                  />
-                ) : (
-                  <div className="flex aspect-[3/4] items-center justify-center bg-zinc-300 px-3 text-center text-sm font-medium text-zinc-600">
-                    No cover
-                  </div>
-                )}
+                <SeriesCover
+                  src={item.cover_url}
+                  alt={item.title}
+                  className="aspect-[3/4] w-full bg-zinc-300"
+                />
 
                 <div className="p-3">
                   <h2 className="line-clamp-2 min-h-10 text-sm font-semibold leading-5 text-zinc-900">

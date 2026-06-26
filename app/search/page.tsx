@@ -1,5 +1,6 @@
 "use client";
 import { supabase } from "@/lib/supabase";
+import SeriesCover from "@/components/SeriesCover";
 import { useState } from "react";
 
 
@@ -164,29 +165,29 @@ if (existingSeries) {
                 key={result.series_id}
                 className="flex gap-3 rounded-xl bg-white p-4 shadow"
               >
-                {result.cover_url ? (
-                      <img
-                        src={result.cover_url}
-                        alt={result.title}
-                        className="h-24 w-16 rounded object-cover"
-                      />
-                    ) : (
-                      <div className="h-24 w-16 rounded bg-zinc-300" />
-                    )}
-                  <h2 className="font-semibold text-lg">
-                    {result.title}
-                  </h2>
-                  
-                  <p className="text-sm text-zinc-600">
-                    {result.type} • {result.year}
-                  </p>
+                <SeriesCover
+                  src={result.cover_url}
+                  alt={result.title}
+                  width={64}
+                  height={96}
+                  className="h-24 w-16"
+                />
+                  <div className="flex-1">
+                    <h2 className="font-semibold text-lg">
+                      {result.title}
+                    </h2>
+                    
+                    <p className="text-sm text-zinc-600">
+                      {result.type} • {result.year}
+                    </p>
 
-                  <button
-                    onClick={() => handleAdd(result)}
-                    className="mt-3 rounded bg-blue-600 px-3 py-2 text-white"
-                  >
-                    Add
-                  </button>
+                    <button
+                      onClick={() => handleAdd(result)}
+                      className="mt-3 rounded bg-blue-600 px-3 py-2 text-white"
+                    >
+                      Add
+                    </button>
+                  </div>
                 </div>
             ))}
           </div>
