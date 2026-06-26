@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import SeriesCover from "@/components/SeriesCover";
 
 type ReadingCardProps = {
   id: string;
@@ -44,15 +45,14 @@ export default function ReadingCard({
     <div className="rounded-xl bg-white p-4 shadow-lg border border-zinc-200">
       <div className="flex gap-4">
 
-        {cover_url ? (
-          <img
-            src={cover_url}
-            alt={title}
-            className="h-20 w-14 rounded object-cover"
-          />
-        ) : (
-          <div className="h-20 w-14 rounded bg-zinc-300" />
-        )}
+        <SeriesCover
+          src={cover_url}
+          alt={title}
+          width={56}
+          height={80}
+          className="h-20 w-14"
+          fallbackText=""
+        />
 
         <div className="flex-1">
           <h2 className="text-lg font-bold text-zinc-900">
